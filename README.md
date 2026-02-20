@@ -46,6 +46,11 @@ npm run tauri build
 3. Select your model
 4. Start studying!
 
+## Macos first run
+
+```sh
+xattr -cr /Applications/Synapse.app
+```
 ## License
 
 MIT
