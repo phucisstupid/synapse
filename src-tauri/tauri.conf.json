@@ -2,7 +2,7 @@
   "$schema": "https://v2.tauri.app/schemas/tauri.config.json",
   "productName": "Synapse",
   "version": "0.1.0",
-  "identifier": "com.synapse.app",
+  "identifier": "com.synapse.studyapp",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420",
@@ -26,6 +26,17 @@
     "security": {
       "csp": null
     }
+  },
+  "bundle": {
+    "active": true,
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "targets": "all"
   },
   "plugins": {
     "shell": {
