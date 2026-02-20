@@ -1,4 +1,4 @@
-name: 'lint-and-format'
+name: 'lint'
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-format:
+  lint:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -39,24 +39,35 @@ jobs:
       - name: typecheck
         run: npx tsc --noEmit
 
-      - name: format frontend
-        run: npx prettier --write "src/**/*.{ts,tsx,css,json}" "*.{json,md}" ".github/**/*.yml"
+      - name: prettier
+        uses: creyD/prettier_action@v4.3
+        with:
+          dry: ${{ github.event_name == 'pull_request' }}
+          prettier_options: --write "src/**/*.{ts,tsx,css,json}" "*.{json,md}" ".github/**/*.yml"
+          commit_message: "style: auto-format code"
+          only_changed: true
 
-      - name: format backend
+      - name: rustfmt
         run: cargo fmt --manifest-path src-tauri/Cargo.toml
 
-      - name: clippy
-        run: cargo clippy --manifest-path src-tauri/Cargo.toml -- -D warnings
-
-      - name: check for changes
+      - name: commit rustfmt changes
+        if: github.event_name == 'push'
         run: |
-          if git diff --exit-code; then
-            echo "No formatting changes needed"
+          if git diff --exit-code src-tauri/; then
+            echo "No rustfmt changes needed"
           else
-            echo "Formatting changes detected"
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
-            git add -A
-            git commit -m "style: auto-format code"
+            git add src-tauri/
+            git commit -m "style: auto-format rust code"
             git push
           fi
+
+      - name: rustfmt check
+        if: github.event_name == 'pull_request'
+        run: cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
+
+      - name: clippy
+        uses: actions-rust-lang/clippy@v1
+        with:
+          args: --manifest-path src-tauri/Cargo.toml -- -D warnings
