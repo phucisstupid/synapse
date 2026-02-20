@@ -28,7 +28,7 @@ export function QuizView({ quiz }: QuizViewProps) {
   const handleNext = () => {
     if (isLastQuestion) {
       const correct = quiz.questions.filter(
-        (q) => q.userAnswer === q.correctIndex
+        (q) => q.userAnswer === q.correctIndex,
       ).length;
       const score = Math.round((correct / quiz.questions.length) * 100);
       completeQuiz(quiz.id, score);
@@ -45,7 +45,7 @@ export function QuizView({ quiz }: QuizViewProps) {
 
   if (showResult) {
     const correct = quiz.questions.filter(
-      (q) => q.userAnswer === q.correctIndex
+      (q) => q.userAnswer === q.correctIndex,
     ).length;
     const score = Math.round((correct / quiz.questions.length) * 100);
 
@@ -70,7 +70,7 @@ export function QuizView({ quiz }: QuizViewProps) {
                   "rounded-lg border p-3",
                   q.userAnswer === q.correctIndex
                     ? "border-green-500 bg-green-50 dark:bg-green-950"
-                    : "border-red-500 bg-red-50 dark:bg-red-950"
+                    : "border-red-500 bg-red-50 dark:bg-red-950",
                 )}
               >
                 <p className="font-medium">{q.question}</p>
@@ -119,12 +119,19 @@ export function QuizView({ quiz }: QuizViewProps) {
                 disabled={isAnswered}
                 className={cn(
                   "w-full rounded-lg border p-3 text-left transition-colors",
-                  showFeedback && isCorrect && "border-green-500 bg-green-50 dark:bg-green-950",
-                  showFeedback && isSelected && !isCorrect && "border-red-500 bg-red-50 dark:bg-red-950",
-                  !showFeedback && "hover:border-primary hover:bg-accent"
+                  showFeedback &&
+                    isCorrect &&
+                    "border-green-500 bg-green-50 dark:bg-green-950",
+                  showFeedback &&
+                    isSelected &&
+                    !isCorrect &&
+                    "border-red-500 bg-red-50 dark:bg-red-950",
+                  !showFeedback && "hover:border-primary hover:bg-accent",
                 )}
               >
-                <span className="mr-2 font-medium">{String.fromCharCode(65 + i)}.</span>
+                <span className="mr-2 font-medium">
+                  {String.fromCharCode(65 + i)}.
+                </span>
                 {option}
                 {showFeedback && isCorrect && (
                   <CheckCircle className="ml-2 inline h-4 w-4 text-green-500" />

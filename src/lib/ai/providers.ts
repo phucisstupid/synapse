@@ -10,7 +10,7 @@ export interface ProviderClientOptions {
 
 export function createProviderClient(
   provider: AIProvider,
-  options: ProviderClientOptions
+  options: ProviderClientOptions,
 ) {
   switch (provider) {
     case "openai":

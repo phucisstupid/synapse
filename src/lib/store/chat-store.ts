@@ -19,12 +19,19 @@ export interface Conversation {
 interface ChatState {
   conversations: Conversation[];
   activeConversationId: string | null;
-  
+
   createConversation: () => string;
   deleteConversation: (id: string) => void;
   setActiveConversation: (id: string | null) => void;
-  addMessage: (conversationId: string, message: Omit<Message, "id" | "timestamp">) => string;
-  updateMessage: (conversationId: string, messageId: string, content: string) => void;
+  addMessage: (
+    conversationId: string,
+    message: Omit<Message, "id" | "timestamp">,
+  ) => string;
+  updateMessage: (
+    conversationId: string,
+    messageId: string,
+    content: string,
+  ) => void;
   getActiveConversation: () => Conversation | undefined;
   clearConversations: () => void;
 }
@@ -55,7 +62,9 @@ export const useChatStore = create<ChatState>()(
         set((state) => ({
           conversations: state.conversations.filter((c) => c.id !== id),
           activeConversationId:
-            state.activeConversationId === id ? null : state.activeConversationId,
+            state.activeConversationId === id
+              ? null
+              : state.activeConversationId,
         })),
 
       setActiveConversation: (id) => set({ activeConversationId: id }),
@@ -67,7 +76,7 @@ export const useChatStore = create<ChatState>()(
           id: messageId,
           timestamp: Date.now(),
         };
-        
+
         set((state) => ({
           conversations: state.conversations.map((c) =>
             c.id === conversationId
@@ -77,13 +86,14 @@ export const useChatStore = create<ChatState>()(
                   updatedAt: Date.now(),
                   title:
                     c.messages.length === 0 && message.role === "user"
-                      ? message.content.slice(0, 50) + (message.content.length > 50 ? "..." : "")
+                      ? message.content.slice(0, 50) +
+                        (message.content.length > 50 ? "..." : "")
                       : c.title,
                 }
-              : c
+              : c,
           ),
         }));
-        
+
         return messageId;
       },
 
@@ -94,17 +104,17 @@ export const useChatStore = create<ChatState>()(
               ? {
                   ...c,
                   messages: c.messages.map((m) =>
-                    m.id === messageId ? { ...m, content } : m
+                    m.id === messageId ? { ...m, content } : m,
                   ),
                 }
-              : c
+              : c,
           ),
         })),
 
       getActiveConversation: () => {
         const state = get();
         return state.conversations.find(
-          (c) => c.id === state.activeConversationId
+          (c) => c.id === state.activeConversationId,
         );
       },
 
@@ -113,6 +123,6 @@ export const useChatStore = create<ChatState>()(
     }),
     {
       name: "synapse-chat",
-    }
-  )
+    },
+  ),
 );

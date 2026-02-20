@@ -43,16 +43,23 @@ interface QuizState {
   decks: Deck[];
   flashcards: Flashcard[];
   quizzes: Quiz[];
-  
+
   createDeck: (name: string, description?: string) => string;
   deleteDeck: (id: string) => void;
-  addFlashcards: (deckId: string, cards: { front: string; back: string }[]) => void;
+  addFlashcards: (
+    deckId: string,
+    cards: { front: string; back: string }[],
+  ) => void;
   updateFlashcard: (id: string, updates: Partial<Flashcard>) => void;
   deleteFlashcard: (id: string) => void;
   getDeckFlashcards: (deckId: string) => Flashcard[];
-  
+
   createQuiz: (topic: string, questions: QuizQuestion[]) => string;
-  updateQuizAnswer: (quizId: string, questionId: string, answer: number) => void;
+  updateQuizAnswer: (
+    quizId: string,
+    questionId: string,
+    answer: number,
+  ) => void;
   completeQuiz: (quizId: string, score: number) => void;
   deleteQuiz: (id: string) => void;
 }
@@ -93,13 +100,13 @@ export const useQuizStore = create<QuizState>()(
           easeFactor: 2.5,
           repetitions: 0,
         }));
-        
+
         set((state) => ({
           flashcards: [...state.flashcards, ...newCards],
           decks: state.decks.map((d) =>
             d.id === deckId
               ? { ...d, cardCount: d.cardCount + cards.length }
-              : d
+              : d,
           ),
         }));
       },
@@ -107,7 +114,7 @@ export const useQuizStore = create<QuizState>()(
       updateFlashcard: (id, updates) =>
         set((state) => ({
           flashcards: state.flashcards.map((f) =>
-            f.id === id ? { ...f, ...updates } : f
+            f.id === id ? { ...f, ...updates } : f,
           ),
         })),
 
@@ -117,7 +124,7 @@ export const useQuizStore = create<QuizState>()(
           return {
             flashcards: state.flashcards.filter((f) => f.id !== id),
             decks: state.decks.map((d) =>
-              d.id === card?.deckId ? { ...d, cardCount: d.cardCount - 1 } : d
+              d.id === card?.deckId ? { ...d, cardCount: d.cardCount - 1 } : d,
             ),
           };
         }),
@@ -150,19 +157,17 @@ export const useQuizStore = create<QuizState>()(
                   questions: q.questions.map((question) =>
                     question.id === questionId
                       ? { ...question, userAnswer: answer }
-                      : question
+                      : question,
                   ),
                 }
-              : q
+              : q,
           ),
         })),
 
       completeQuiz: (quizId, score) =>
         set((state) => ({
           quizzes: state.quizzes.map((q) =>
-            q.id === quizId
-              ? { ...q, score, completedAt: Date.now() }
-              : q
+            q.id === quizId ? { ...q, score, completedAt: Date.now() } : q,
           ),
         })),
 
@@ -173,6 +178,6 @@ export const useQuizStore = create<QuizState>()(
     }),
     {
       name: "synapse-quiz",
-    }
-  )
+    },
+  ),
 );

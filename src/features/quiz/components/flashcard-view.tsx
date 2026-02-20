@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, RotateCcw, Sparkles, Loader2 } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  RotateCcw,
+  Sparkles,
+  Loader2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -34,11 +40,15 @@ export function FlashcardView() {
       const deckId = createDeck(topic);
       addFlashcards(
         deckId,
-        cards.map((c) => ({ front: c.front, back: c.back }))
+        cards.map((c) => ({ front: c.front, back: c.back })),
       );
       setTopic("");
     } catch (error) {
-      alert(error instanceof Error ? error.message : "Failed to generate flashcards");
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Failed to generate flashcards",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -54,7 +64,9 @@ export function FlashcardView() {
 
   const handlePrev = () => {
     setIsFlipped(false);
-    setCurrentCardIndex((i) => (i - 1 + allFlashcards.length) % allFlashcards.length);
+    setCurrentCardIndex(
+      (i) => (i - 1 + allFlashcards.length) % allFlashcards.length,
+    );
   };
 
   if (allFlashcards.length === 0) {
@@ -114,13 +126,13 @@ export function FlashcardView() {
         className={cn(
           "relative h-64 cursor-pointer perspective-1000",
           "[transform-style:preserve-3d] transition-transform duration-500",
-          isFlipped && "[transform:rotateY(180deg)]"
+          isFlipped && "[transform:rotateY(180deg)]",
         )}
       >
         <Card
           className={cn(
             "absolute inset-0 flex items-center justify-center p-6 text-center",
-            "[backface-visibility:hidden]"
+            "[backface-visibility:hidden]",
           )}
         >
           <p className="text-xl">{currentCard?.front}</p>
@@ -128,7 +140,7 @@ export function FlashcardView() {
         <Card
           className={cn(
             "absolute inset-0 flex items-center justify-center bg-primary text-primary-foreground p-6 text-center",
-            "[backface-visibility:hidden] [transform:rotateY(180deg)]"
+            "[backface-visibility:hidden] [transform:rotateY(180deg)]",
           )}
         >
           <p className="text-xl">{currentCard?.back}</p>

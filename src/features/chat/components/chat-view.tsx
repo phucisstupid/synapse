@@ -79,7 +79,7 @@ export function ChatView() {
       updateMessage(
         conversationId,
         assistantMessageId,
-        `Error: ${error instanceof Error ? error.message : "Failed to get response"}`
+        `Error: ${error instanceof Error ? error.message : "Failed to get response"}`,
       );
     } finally {
       setIsStreaming(false);
@@ -102,7 +102,9 @@ export function ChatView() {
             Your AI study assistant. Ask anything to get started.
           </p>
         </div>
-        <Button onClick={() => createConversation()}>Start a conversation</Button>
+        <Button onClick={() => createConversation()}>
+          Start a conversation
+        </Button>
 
         <div className="mt-8 grid max-w-2xl gap-4 sm:grid-cols-2">
           {[
@@ -137,7 +139,7 @@ export function ChatView() {
               key={message.id}
               className={cn(
                 "flex gap-3",
-                message.role === "user" ? "justify-end" : "justify-start"
+                message.role === "user" ? "justify-end" : "justify-start",
               )}
             >
               {message.role === "assistant" && (
@@ -150,7 +152,7 @@ export function ChatView() {
                   "max-w-[80%] rounded-lg px-4 py-2",
                   message.role === "user"
                     ? "bg-primary text-primary-foreground"
-                    : "bg-muted"
+                    : "bg-muted",
                 )}
               >
                 <p className="whitespace-pre-wrap text-sm">{message.content}</p>

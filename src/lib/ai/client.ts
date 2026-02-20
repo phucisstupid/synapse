@@ -51,7 +51,7 @@ export class SynapseAIClient {
             options: z.array(z.string()).length(4),
             correctIndex: z.number().min(0).max(3),
             explanation: z.string(),
-          })
+          }),
         ),
       }),
       prompt: `Generate ${count} multiple choice quiz questions about: ${topic}. 
@@ -69,7 +69,7 @@ export class SynapseAIClient {
           z.object({
             front: z.string(),
             back: z.string(),
-          })
+          }),
         ),
       }),
       prompt: `Generate ${count} flashcards about: ${topic}.
@@ -101,7 +101,11 @@ export class SynapseAIClient {
     return object;
   }
 
-  async createStudyPlan(subjects: string[], durationDays: number, hoursPerDay: number) {
+  async createStudyPlan(
+    subjects: string[],
+    durationDays: number,
+    hoursPerDay: number,
+  ) {
     const { object } = await generateObject({
       model: this.client(this.modelId),
       schema: z.object({
@@ -112,7 +116,7 @@ export class SynapseAIClient {
             topic: z.string(),
             duration: z.number(),
             tasks: z.array(z.string()),
-          })
+          }),
         ),
       }),
       prompt: `Create a study plan for the next ${durationDays} days.
@@ -127,7 +131,10 @@ export class SynapseAIClient {
     return object.schedule;
   }
 
-  async explainConcept(topic: string, level: "beginner" | "intermediate" | "advanced" = "intermediate") {
+  async explainConcept(
+    topic: string,
+    level: "beginner" | "intermediate" | "advanced" = "intermediate",
+  ) {
     const result = await generateText({
       model: this.client(this.modelId),
       prompt: `Explain the following concept at a ${level} level.

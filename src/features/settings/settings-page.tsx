@@ -2,7 +2,13 @@ import { useState } from "react";
 import { Key, ExternalLink, Check, Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { useSettingsStore } from "@/lib/store";
 import { PROVIDERS, type AIProvider } from "@/lib/ai/models";
 import {
@@ -14,8 +20,19 @@ import {
 } from "@/components/ui/select";
 
 export function SettingsPage() {
-  const { provider, model, setProvider, setModel, apiKeys, setApiKey, theme, setTheme } = useSettingsStore();
-  const [showKeys, setShowKeys] = useState<Record<AIProvider, boolean>>({} as any);
+  const {
+    provider,
+    model,
+    setProvider,
+    setModel,
+    apiKeys,
+    setApiKey,
+    theme,
+    setTheme,
+  } = useSettingsStore();
+  const [showKeys, setShowKeys] = useState<Record<AIProvider, boolean>>(
+    {} as any,
+  );
 
   const toggleShowKey = (p: AIProvider) => {
     setShowKeys((prev) => ({ ...prev, [p]: !prev[p] }));
@@ -102,7 +119,8 @@ export function SettingsPage() {
                 value={provider}
                 onValueChange={(v) => {
                   setProvider(v as AIProvider);
-                  const defaultModel = PROVIDERS.find((p) => p.id === v)?.models[0];
+                  const defaultModel = PROVIDERS.find((p) => p.id === v)
+                    ?.models[0];
                   if (defaultModel) setModel(defaultModel.id);
                 }}
               >
@@ -141,9 +159,7 @@ export function SettingsPage() {
       <Card>
         <CardHeader>
           <CardTitle>Appearance</CardTitle>
-          <CardDescription>
-            Customize how Synapse looks.
-          </CardDescription>
+          <CardDescription>Customize how Synapse looks.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">

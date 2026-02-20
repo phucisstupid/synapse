@@ -14,7 +14,8 @@ export function StudyCalendar() {
   const [hoursPerDay, setHoursPerDay] = useState(2);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { createPlan, completeSession, getActivePlan, getProgress } = usePlannerStore();
+  const { createPlan, completeSession, getActivePlan, getProgress } =
+    usePlannerStore();
   const { provider, model, getApiKey } = useSettingsStore();
 
   const activePlan = getActivePlan();
@@ -35,7 +36,7 @@ export function StudyCalendar() {
       const sessions = await client.createStudyPlan(
         subjects.split(",").map((s) => s.trim()),
         duration,
-        hoursPerDay
+        hoursPerDay,
       );
 
       createPlan(
@@ -46,7 +47,7 @@ export function StudyCalendar() {
           scheduledAt: Date.now() + s.day * 24 * 60 * 60 * 1000,
           duration: s.duration,
           tasks: s.tasks,
-        }))
+        })),
       );
 
       setSubjects("");
@@ -138,14 +139,16 @@ export function StudyCalendar() {
             key={session.id}
             className={cn(
               "transition-opacity",
-              session.completed && "opacity-60"
+              session.completed && "opacity-60",
             )}
           >
             <CardContent className="pt-4 space-y-2">
               <div className="flex items-start justify-between">
                 <div>
                   <h4 className="font-medium">{session.subject}</h4>
-                  <p className="text-sm text-muted-foreground">{session.topic}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {session.topic}
+                  </p>
                 </div>
                 {session.completed ? (
                   <CheckCircle className="h-5 w-5 text-green-500" />

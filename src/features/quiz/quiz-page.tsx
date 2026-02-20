@@ -50,10 +50,7 @@ export function QuizPage() {
             ) : (
               <div className="space-y-2">
                 {quizzes.slice(0, 10).map((quiz) => (
-                  <div
-                    key={quiz.id}
-                    className="rounded-lg border p-3 text-sm"
-                  >
+                  <div key={quiz.id} className="rounded-lg border p-3 text-sm">
                     <p className="font-medium">{quiz.topic}</p>
                     <p className="text-muted-foreground">
                       {quiz.questions.length} questions

@@ -46,7 +46,9 @@ export function DocumentUpload() {
       const result = await client.summarizeDocument(content);
       setSummary(result);
     } catch (error) {
-      alert(error instanceof Error ? error.message : "Failed to analyze document");
+      alert(
+        error instanceof Error ? error.message : "Failed to analyze document",
+      );
     } finally {
       setIsLoading(false);
     }

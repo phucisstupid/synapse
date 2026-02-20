@@ -7,7 +7,7 @@ interface SettingsState {
   model: string;
   apiKeys: Record<AIProvider, string>;
   theme: "light" | "dark" | "system";
-  
+
   setProvider: (provider: AIProvider) => void;
   setModel: (model: string) => void;
   setApiKey: (provider: AIProvider, key: string) => void;
@@ -39,6 +39,6 @@ export const useSettingsStore = create<SettingsState>()(
         model: state.model,
         theme: state.theme,
       }),
-    }
-  )
+    },
+  ),
 );

@@ -22,8 +22,11 @@ export interface StudyPlan {
 interface PlannerState {
   plans: StudyPlan[];
   activePlanId: string | null;
-  
-  createPlan: (name: string, sessions: Omit<StudySession, "id" | "completed">[]) => string;
+
+  createPlan: (
+    name: string,
+    sessions: Omit<StudySession, "id" | "completed">[],
+  ) => string;
   deletePlan: (id: string) => void;
   setActivePlan: (id: string | null) => void;
   completeSession: (sessionId: string) => void;
@@ -46,7 +49,7 @@ export const usePlannerStore = create<PlannerState>()(
           id: crypto.randomUUID(),
           completed: false,
         }));
-        
+
         set((state) => ({
           plans: [
             {
@@ -59,15 +62,14 @@ export const usePlannerStore = create<PlannerState>()(
           ],
           activePlanId: planId,
         }));
-        
+
         return planId;
       },
 
       deletePlan: (id) =>
         set((state) => ({
           plans: state.plans.filter((p) => p.id !== id),
-          activePlanId:
-            state.activePlanId === id ? null : state.activePlanId,
+          activePlanId: state.activePlanId === id ? null : state.activePlanId,
         })),
 
       setActivePlan: (id) => set({ activePlanId: id }),
@@ -79,7 +81,7 @@ export const usePlannerStore = create<PlannerState>()(
             sessions: p.sessions.map((s) =>
               s.id === sessionId
                 ? { ...s, completed: true, completedAt: Date.now() }
-                : s
+                : s,
             ),
           })),
         })),
@@ -89,7 +91,7 @@ export const usePlannerStore = create<PlannerState>()(
           plans: state.plans.map((p) => ({
             ...p,
             sessions: p.sessions.map((s) =>
-              s.id === sessionId ? { ...s, scheduledAt: newTime } : s
+              s.id === sessionId ? { ...s, scheduledAt: newTime } : s,
             ),
           })),
         })),
@@ -103,14 +105,16 @@ export const usePlannerStore = create<PlannerState>()(
         const state = get();
         const plan = state.plans.find((p) => p.id === state.activePlanId);
         if (!plan) return [];
-        
+
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
-        
+
         return plan.sessions.filter(
-          (s) => s.scheduledAt >= today.getTime() && s.scheduledAt < tomorrow.getTime()
+          (s) =>
+            s.scheduledAt >= today.getTime() &&
+            s.scheduledAt < tomorrow.getTime(),
         );
       },
 
@@ -118,7 +122,7 @@ export const usePlannerStore = create<PlannerState>()(
         const state = get();
         const plan = state.plans.find((p) => p.id === state.activePlanId);
         if (!plan) return { completed: 0, total: 0 };
-        
+
         const total = plan.sessions.length;
         const completed = plan.sessions.filter((s) => s.completed).length;
         return { completed, total };
@@ -126,6 +130,6 @@ export const usePlannerStore = create<PlannerState>()(
     }),
     {
       name: "synapse-planner",
-    }
-  )
+    },
+  ),
 );
