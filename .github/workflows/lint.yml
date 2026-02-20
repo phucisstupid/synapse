@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      checks: write
 
     steps:
       - uses: actions/checkout@v4
@@ -67,7 +68,8 @@ jobs:
         if: github.event_name == 'pull_request'
         run: cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
 
-      - name: clippy
-        uses: actions-rust-lang/clippy@v1
+      - name: clippy check
+        uses: actions-rs/clippy-check@v1
         with:
-          args: --manifest-path src-tauri/Cargo.toml -- -D warnings
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --manifest-path src-tauri/Cargo.toml --all-features -- -D warnings
