@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: oklch(100% 0 0);
+  --color-foreground: oklch(14% 0.005 285);
+  --color-card: oklch(100% 0 0);
+  --color-card-foreground: oklch(14% 0.005 285);
+  --color-popover: oklch(100% 0 0);
+  --color-popover-foreground: oklch(14% 0.005 285);
+  --color-primary: oklch(50% 0.2 250);
+  --color-primary-foreground: oklch(98% 0 0);
+  --color-secondary: oklch(96% 0.005 285);
+  --color-secondary-foreground: oklch(20% 0.005 285);
+  --color-muted: oklch(96% 0.005 285);
+  --color-muted-foreground: oklch(55% 0.01 285);
+  --color-accent: oklch(96% 0.005 285);
+  --color-accent-foreground: oklch(20% 0.005 285);
+  --color-destructive: oklch(57% 0.22 25);
+  --color-destructive-foreground: oklch(98% 0 0);
+  --color-border: oklch(92% 0.005 285);
+  --color-input: oklch(92% 0.005 285);
+  --color-ring: oklch(50% 0.2 250);
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-background: oklch(14% 0.005 285);
+    --color-foreground: oklch(98% 0 0);
+    --color-card: oklch(18% 0.005 285);
+    --color-card-foreground: oklch(98% 0 0);
+    --color-popover: oklch(18% 0.005 285);
+    --color-popover-foreground: oklch(98% 0 0);
+    --color-primary: oklch(65% 0.2 250);
+    --color-primary-foreground: oklch(10% 0 0);
+    --color-secondary: oklch(25% 0.005 285);
+    --color-secondary-foreground: oklch(98% 0 0);
+    --color-muted: oklch(22% 0.005 285);
+    --color-muted-foreground: oklch(65% 0.01 285);
+    --color-accent: oklch(22% 0.005 285);
+    --color-accent-foreground: oklch(98% 0 0);
+    --color-destructive: oklch(65% 0.22 25);
+    --color-destructive-foreground: oklch(98% 0 0);
+    --color-border: oklch(28% 0.005 285);
+    --color-input: oklch(22% 0.005 285);
+    --color-ring: oklch(65% 0.2 250);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

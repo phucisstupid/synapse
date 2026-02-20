@@ -1,0 +1,41 @@
+version: 2
+registries:
+  npm-registry:
+    type: npm-registry
+    url: https://registry.npmjs.org
+
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'npm'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'javascript'
+
+  - package-ecosystem: 'cargo'
+    directory: '/src-tauri'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'cargo'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'rust'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'ci'
+    labels:
+      - 'dependencies'
+      - 'github-actions'

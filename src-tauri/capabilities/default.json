@@ -1,0 +1,16 @@
+{
+  "$schema": "https://v2.tauri.app/schemas/capability.json",
+  "identifier": "default",
+  "description": "Default capability for Synapse app",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "shell:allow-open",
+    "fs:allow-read-text-file",
+    "fs:allow-write-text-file",
+    "fs:allow-exists",
+    "dialog:allow-open",
+    "dialog:allow-save",
+    "sql:default"
+  ]
+}
