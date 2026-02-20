@@ -30,13 +30,13 @@ A cross-platform desktop study app powered by multiple AI providers.
 
 ```bash
 # Install dependencies
-bun install
+npm install
 
 # Run in development
-bun run tauri dev
+npm run tauri dev
 
 # Build for production
-bun run tauri build
+npm run tauri build
 ```
 
 ## Configuration
