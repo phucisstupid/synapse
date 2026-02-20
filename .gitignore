@@ -1,7 +1,6 @@
 # Dependencies
 node_modules/
 bun.lockb
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
@@ -13,7 +12,6 @@ build/
 
 # Tauri
 src-tauri/target/
-src-tauri/Cargo.lock
 
 # Environment
 .env
