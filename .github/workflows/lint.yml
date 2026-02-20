@@ -1,4 +1,4 @@
-name: 'lint'
+name: 'lint-and-format'
 
 on:
   push:
@@ -7,11 +7,15 @@ on:
     branches: [main]
 
 jobs:
-  lint:
+  lint-and-format:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: setup node
         uses: actions/setup-node@v4
@@ -22,7 +26,7 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          components: clippy
+          components: rustfmt, clippy
 
       - name: install dependencies (ubuntu)
         run: |
@@ -35,11 +39,24 @@ jobs:
       - name: typecheck
         run: npx tsc --noEmit
 
-      - name: check frontend formatting
-        run: npx prettier --check "src/**/*.{ts,tsx,css,json}" "*.{json,md}" ".github/**/*.yml"
+      - name: format frontend
+        run: npx prettier --write "src/**/*.{ts,tsx,css,json}" "*.{json,md}" ".github/**/*.yml"
 
-      - name: check rust formatting
-        run: cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
+      - name: format backend
+        run: cargo fmt --manifest-path src-tauri/Cargo.toml
 
       - name: clippy
         run: cargo clippy --manifest-path src-tauri/Cargo.toml -- -D warnings
+
+      - name: check for changes
+        run: |
+          if git diff --exit-code; then
+            echo "No formatting changes needed"
+          else
+            echo "Formatting changes detected"
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git add -A
+            git commit -m "style: auto-format code"
+            git push
+          fi
