@@ -41,7 +41,7 @@ jobs:
         run: npx tsc --noEmit
 
       - name: prettier
-        uses: creyD/prettier_action@v4.3
+        uses: creyD/prettier_action@v4.6
         with:
           dry: ${{ github.event_name == 'pull_request' }}
           prettier_options: --write src/**/*.{ts,tsx,css,json} *.{json,md}
